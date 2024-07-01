@@ -1,0 +1,36 @@
+databases: 
+create table registration
+(
+Mobileno varchar2(10) PRIMARY KEY,
+FullName varchar2(100) NOT NULL,
+UserName varchar2(100) NOT NULL,
+emailid varchar2(100) NOT NULL,
+password varchar2(100) NOT NULL,
+balance number NOT NULL
+);
+
+CREATE SEQUENCE transaction_seq
+    START WITH 1
+    INCREMENT BY 1;
+
+CREATE TABLE transaction (
+    transaction_id NUMBER PRIMARY KEY,
+    mobileno VARCHAR2(10) NOT NULL,
+    Services VARCHAR2(50),
+    amount NUMBER NOT NULL,
+    Plan VARCHAR2(100),
+    CONSTRAINT fk_mobileno FOREIGN KEY (mobileno) REFERENCES registration(Mobileno)
+);
+
+CREATE OR REPLACE TRIGGER transaction_bir
+BEFORE INSERT ON transaction
+FOR EACH ROW
+BEGIN
+    :new.transaction_id := transaction_seq.NEXTVAL;
+END;
+/
+
+
+
+
+
